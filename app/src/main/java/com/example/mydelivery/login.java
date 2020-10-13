@@ -62,6 +62,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                irAHome();
 
             }
 
@@ -80,6 +81,10 @@ public class login extends AppCompatActivity implements View.OnClickListener {
     }
     public void irARegistrar(){
         Intent i = new Intent(this,RegistrarUsuario.class);
+        startActivity(i);
+    }
+    public void irAHome(){
+        Intent i = new Intent(this,MainActivity.class);
         startActivity(i);
     }
 }

@@ -19,7 +19,7 @@ public class Resource {
          this.ruta = ruta;
          asyncHttpClient = new AsyncHttpClient();
          if(Config._token!=null){
-             asyncHttpClient.addHeader("authorization","data"+Config._token);
+             asyncHttpClient.addHeader("authorization","data "+Config._token);
          }
      }
      public RequestParams generateParams(JSONObject jo){
