@@ -32,21 +32,21 @@ public class Resource {
 
      }
      public void get(final ResourceHandler rh){
-         asyncHttpClient.post(Config.ApiURL+"/"+ruta,new JsonHttpHandler(rh));
+         asyncHttpClient.get(Config.ApiURL+"/"+ruta,new JsonHttpHandler(rh));
 
      }
      public void put(String id,JSONObject data,ResourceHandler rh){
          RequestParams params = generateParams(data);
-         asyncHttpClient.post(Config.ApiURL+"/"+ruta+"/"+id,params,new JsonHttpHandler(rh));
+         asyncHttpClient.put(Config.ApiURL+"/"+ruta+"/"+id,params,new JsonHttpHandler(rh));
 
      }
      public void patch(String id,JSONObject data,ResourceHandler rh){
          RequestParams params = generateParams(data);
-         asyncHttpClient.post(Config.ApiURL+"/"+ruta+"/"+id,params,new JsonHttpHandler(rh));
+         asyncHttpClient.patch(Config.ApiURL+"/"+ruta+"/"+id,params,new JsonHttpHandler(rh));
 
      }
      public void delete(String id,ResourceHandler rh){
-         asyncHttpClient.post(Config.ApiURL+"/"+ruta+"/"+id,new JsonHttpHandler(rh));
+         asyncHttpClient.delete(Config.ApiURL+"/"+ruta+"/"+id,new JsonHttpHandler(rh));
 
      }
 

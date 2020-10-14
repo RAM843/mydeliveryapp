@@ -16,8 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegistrarUsuario extends AppCompatActivity implements View.OnClickListener {
-
-
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +24,9 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_registrar_usuario);
         loadComponents();
     }
-
     EditText nombre,apellido,ci,celular,email,password,cpassword;
-    Button btn_ru_guardar,btn_ru_cancelar;
-    private  void loadComponents(){
+    Button guardar,cancelar;
+    private void loadComponents() {
         nombre = findViewById(R.id.ru_nombre);
         apellido = findViewById(R.id.ru_apellidos);
         ci = findViewById(R.id.ru_CI);
@@ -36,12 +34,11 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
         email = findViewById(R.id.ru_email);
         password = findViewById(R.id.ru_password);
         cpassword = findViewById(R.id.ru_cpassword);
-        //botones
-        btn_ru_guardar = findViewById(R.id.btn_ru_guardar);
-        btn_ru_cancelar = findViewById(R.id.btn_ru_cancelar);
-        btn_ru_guardar.setOnClickListener(this);
-        btn_ru_cancelar.setOnClickListener(this);
 
+        guardar = findViewById(R.id.btn_ru_guardar);
+        cancelar = findViewById(R.id.btn_ru_calcelar);
+        guardar.setOnClickListener(this);
+        cancelar.setOnClickListener(this);
     }
 
     @Override
@@ -50,13 +47,11 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
             case R.id.btn_ru_guardar:
                 guardar();
                 break;
-            case R.id.btn_ru_cancelar:
-                irAlogin();
+            case R.id.btn_ru_calcelar:
+                irALogin();
                 break;
         }
-
     }
-
     public void guardar(){
         if(password.getText().toString().equals(cpassword.getText().toString())){
             JSONObject jo = new JSONObject();
@@ -71,6 +66,7 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             Resource ur = new Resource("usuario");
             ur.post(jo, new ResourceHandler() {
                 @Override
@@ -80,7 +76,7 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    irAlogin();
+                    irALogin();
                 }
 
                 @Override
@@ -90,19 +86,15 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             });
-
         }
         else{
-            Toast.makeText(this,"las contraseñas no coinciden",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"lan contraseñas o coinciden",Toast.LENGTH_LONG).show();
         }
-
     }
-    public void irAlogin(){
-        Intent i = new Intent(this,login.class);
+    public void irALogin(){
+        Intent i = new Intent(this,Login.class);
         startActivity(i);
-
     }
 }

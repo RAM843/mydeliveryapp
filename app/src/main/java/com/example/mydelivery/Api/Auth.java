@@ -11,7 +11,7 @@ public class Auth  {
         asyncHttpClient = new AsyncHttpClient();
     }
 
-    public void login(String email, String password,final ResourceHandler rh){
+    public void login(String email, String password, final ResourceHandler rh){
         RequestParams params = new RequestParams();
         params.add("email",email);
         params.add("password",password);
@@ -24,12 +24,11 @@ public class Auth  {
                     e.printStackTrace();
                 }
                 rh.onSucces(result);
-
             }
 
             @Override
             public void onFailure(JSONObject error) {
-
+                rh.onFailure(error);
             }
         }));
     }

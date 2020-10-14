@@ -16,26 +16,23 @@ import com.example.mydelivery.Models.Usuario;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class login extends AppCompatActivity implements View.OnClickListener {
-
+public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         loadComponents();
-
     }
-    EditText login_email, login_password;
-    Button btn_login,btn_register;
-    private void loadComponents(){
-        login_email = findViewById(R.id.login_email);
-        login_password = findViewById(R.id.login_password);
-        btn_login = findViewById(R.id.btn_login);
-        btn_register = findViewById(R.id.btn_register);
-        btn_login.setOnClickListener(this);
-        btn_register.setOnClickListener(this);
-
+    EditText email,password;
+    Button login,register;
+    private void loadComponents() {
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        login = findViewById(R.id.btn_login);
+        register = findViewById(R.id.btn_registrar);
+        login.setOnClickListener(this);
+        register.setOnClickListener(this);
     }
 
     @Override
@@ -44,18 +41,16 @@ public class login extends AppCompatActivity implements View.OnClickListener {
             case R.id.btn_login:
                 login();
                 break;
-            case R.id.btn_register:
+            case R.id.btn_registrar:
                 irARegistrar();
                 break;
-
         }
-
     }
     public void login(){
-        String email = this.login_email.getText().toString();
-        String password = this.login_password.getText().toString();
+        String email = this.email.getText().toString();
+        String password = this.password.getText().toString();
         Auth a = new Auth();
-        a.login(email,password, new ResourceHandler() {
+        a.login(email, password, new ResourceHandler() {
             @Override
             public void onSucces(JSONObject result) {
                 try {
@@ -65,7 +60,6 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 irAHome();
-
             }
 
             @Override
@@ -75,12 +69,10 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-            });
-
-
+        });
     }
+
     public void irARegistrar(){
         Intent i = new Intent(this,RegistrarUsuario.class);
         startActivity(i);

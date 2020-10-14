@@ -3,10 +3,11 @@ package com.example.mydelivery.Models;
 import org.json.JSONObject;
 
 public class Usuario {
-    public String nombre, apellido, ci, telefono, email, password, rol, fechaderegistro;
+    public String id,nombre, apellido, ci, telefono, email, password, rol, fechaderegistro;
 
     public Usuario(JSONObject jo){
         try {
+            id = jo.getString("_id");
             nombre = jo.getString("nombre");
             apellido = jo.getString("apellido");
             ci = jo.getString("ci");
@@ -19,7 +20,7 @@ public class Usuario {
         }
     }
 
-   public boolean isAdmin(){
+    public boolean isAdmin(){
         return rol.equals("admin");
     }
 }

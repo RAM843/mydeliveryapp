@@ -2,10 +2,9 @@ package com.example.mydelivery;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import android.Manifest;
-import  android.app.AlertDialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -27,7 +26,7 @@ import android.widget.Toast;
 
 import com.example.mydelivery.Api.Resource;
 import com.example.mydelivery.Api.ResourceHandler;
-import com.example.mydelivery.Api.Uploadfile;
+import com.example.mydelivery.Api.UploadFile;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -52,14 +51,12 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
     private GoogleMap googleMap;
     private Geocoder geocoder = null;
     private LatLng miubicacion = null;
-    private  int CODE_CAMERA_LOGO = 1100;
-    private  int CODE_GALERY_LOGO = 1101;
-    private String logoPath= null;
-    private  int CODE_CAMERA_FOTOLUGAR = 1200;
-    private  int CODE_GALERY_FOTOLUGAR = 1201;
-    private String FotoLugarPath= null;
-
-
+    private int CODE_CAMERA_LOGO = 1100;
+    private int CODE_GALERY_LOGO = 1101;
+    private String logoPath = null;
+    private int CODE_CAMERA_FOTOLUGAR = 1200;
+    private int CODE_GALERY_FOTOLUGAR = 1201;
+    private String fotoLugarPath = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +68,6 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
     ImageView logo,fotolugar;
     EditText nombre,nit,propietario,direccion,telefono;
     Button crear;
-
     private void loadComponents() {
         nombre = findViewById(R.id.txt_rr_nombre);
         nit = findViewById(R.id.txt_rr_nit);
@@ -81,14 +77,11 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
 
         crear = findViewById(R.id.btn_rr_crear);
         crear.setOnClickListener(this);
-
         //imagenes
-        logo =findViewById(R.id.img_rr_logo);
-        fotolugar =findViewById(R.id.img_rr_fotolugar);
+        logo = findViewById(R.id.img_rr_logo);
+        fotolugar = findViewById(R.id.img_rr_fotolugar);
         logo.setOnClickListener(this);
         fotolugar.setOnClickListener(this);
-
-
     }
 
 
@@ -98,19 +91,17 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
         mapview.onResume();
         MapsInitializer.initialize(this);
         mapview.getMapAsync(this);
-        geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
-
+        geocoder =new Geocoder(getBaseContext(), Locale.getDefault());
     }
-
     @Override
     public void onMapReady(GoogleMap gm) {
         this.googleMap = gm;
-        LatLng potosi = new LatLng(-19-5730936,-65.7559122);
+        LatLng potosi =new LatLng(-19.5730936, -65.7559122);
         miubicacion = potosi;
-        googleMap.addMarker (new MarkerOptions (). position (potosi) .title ("Lugar"). zIndex (18) .draggable (true));
-        googleMap.setMinZoomPreference (15);
-        googleMap.moveCamera (CameraUpdateFactory.newLatLng (potosi));
-        googleMap.setOnMarkerDragListener (new GoogleMap.OnMarkerDragListener () {
+        googleMap.addMarker(new MarkerOptions().position(potosi).title("Lugar").zIndex(18).draggable(true));
+        googleMap.setMinZoomPreference(15);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(potosi));
+        googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
 
@@ -124,11 +115,9 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
             @Override
             public void onMarkerDragEnd(Marker marker) {
                 miubicacion = marker.getPosition();
-
             }
         });
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -139,20 +128,20 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                 logoPath=saveToInternalStorage(imgbitmap);
                 logo.setImageBitmap(BitmapFactory.decodeFile(logoPath));
             }
-           if(requestCode==CODE_GALERY_LOGO){
-               Uri uri=data.getData();
-               logoPath=getRealPathFromURI(uri);
-               logo.setImageBitmap(BitmapFactory.decodeFile(logoPath));
+            if(requestCode==CODE_GALERY_LOGO){
+                Uri uri=data.getData();
+                logoPath=getRealPathFromURI(uri);
+                logo.setImageBitmap(BitmapFactory.decodeFile(logoPath));
             }
             if(requestCode==CODE_CAMERA_FOTOLUGAR){
                 Bitmap imgbitmap=(Bitmap)data.getExtras().get("data");
-                FotoLugarPath=saveToInternalStorage(imgbitmap);
-                fotolugar.setImageBitmap(BitmapFactory.decodeFile(FotoLugarPath));
+                fotoLugarPath=saveToInternalStorage(imgbitmap);
+                fotolugar.setImageBitmap(BitmapFactory.decodeFile(fotoLugarPath));
             }
             if(requestCode==CODE_GALERY_FOTOLUGAR){
                 Uri uri=data.getData();
-                FotoLugarPath=getRealPathFromURI(uri);
-                fotolugar.setImageBitmap(BitmapFactory.decodeFile(FotoLugarPath));
+                fotoLugarPath=getRealPathFromURI(uri);
+                fotolugar.setImageBitmap(BitmapFactory.decodeFile(fotoLugarPath));
             }
         }
     }
@@ -210,7 +199,6 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
         return false;
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -218,7 +206,7 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                 onClickLogo();
                 break;
             case R.id.img_rr_fotolugar:
-                onClockFotoLugar();
+                onClickFotoLugar();
                 break;
             case R.id.btn_rr_crear:
                 try {
@@ -230,7 +218,7 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
         }
     }
     private void irAAdministrador(){
-        Intent i = new Intent( this, administrador.class);
+        Intent i =new Intent(this,administrador.class);
         startActivity(i);
     }
     private void onClickCrear() throws JSONException {
@@ -241,8 +229,8 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
         jo.put("propietario",propietario.getText().toString());
         jo.put("calle",direccion.getText().toString());
         jo.put("telefono",telefono.getText().toString());
+        jo.put("log",String.valueOf(miubicacion.longitude));
         jo.put("lat",String.valueOf(miubicacion.latitude));
-        jo.put("log",String.valueOf(miubicacion.latitude));
         restResource.post(jo, new ResourceHandler() {
             @Override
             public void onSucces(JSONObject result) {
@@ -254,7 +242,6 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -264,18 +251,16 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
-
     }
+
     public void uploadLogo(final String id){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Uploadfile.uploadRestaurantLogo(id, new File(logoPath), new ResourceHandler() {
+                    UploadFile.uploadRestaurantLogo(id, new File(logoPath), new ResourceHandler() {
                         @Override
                         public void onSucces(JSONObject result) {
                             try {
@@ -292,22 +277,20 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     });
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }
-    public void uploadFotoLugar(final  String id){
+    public void uploadFotoLugar(final String id){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Uploadfile.uploadRestaurantFotoLugar(id, new File(logoPath), new ResourceHandler() {
+                    UploadFile.uploadRestaurantFotoLugar(id, new File(fotoLugarPath), new ResourceHandler() {
                         @Override
                         public void onSucces(JSONObject result) {
                             try {
@@ -324,49 +307,45 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     });
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
             }
         });
-
     }
 
     public void onClickLogo(){
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("SELECT");
-            alertDialog.setMessage("Seleccione el metodo");
-            alertDialog.setButton("CAMARA", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),CODE_CAMERA_LOGO);
-                }
-            });
-            alertDialog.setButton2("GALERIA",new DialogInterface.OnClickListener(){
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    Intent intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/");
-                    startActivityForResult(Intent.createChooser(intent,"Seleccione la Aplicacion"),CODE_GALERY_LOGO);
-                }
-            });
-            alertDialog.show();
-
-    }
-
-
-    public void onClockFotoLugar(){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("SELECT");
+        alertDialog.setTitle("SELECCIONAR");
         alertDialog.setMessage("Seleccione el metodo");
-        alertDialog.setButton("CAMARA", new DialogInterface.OnClickListener() {
+        alertDialog.setButton("CAMARA",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),CODE_CAMERA_LOGO);
+            }
+        });
+        alertDialog.setButton2("GALERIA",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/");
+                startActivityForResult(Intent.createChooser(intent,"Seleccione la Aplicacion"),CODE_GALERY_LOGO);
+            }
+        });
+        alertDialog.show();
+    }
+    public void onClickFotoLugar(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("SELECCIONAR");
+        alertDialog.setMessage("Seleccione el metodo");
+        alertDialog.setButton("CAMARA",new DialogInterface.OnClickListener(){
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -384,6 +363,5 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
             }
         });
         alertDialog.show();
-
     }
 }

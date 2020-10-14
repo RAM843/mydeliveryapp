@@ -3,36 +3,58 @@ package com.example.mydelivery;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import androidx.gridlayout.widget.GridLayout;
+
+import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.example.mydelivery.Adapters.OnChange;
+import com.example.mydelivery.Adapters.RestaurantAdapter;
+import com.example.mydelivery.Api.Resource;
+import com.example.mydelivery.Api.ResourceHandler;
+import com.example.mydelivery.Models.LoadAllImages;
+import com.example.mydelivery.Models.Restaurante;
+import com.example.mydelivery.Utils.OnLoadImg;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class administrador extends AppCompatActivity {
-    private Button btnRes;
-    private Button btnMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_administrador);
-
         loadComponents();
-
-
     }
-    //admin
-    private Button btnCrearRestaurant;
 
-    //usuario
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getRestaurantes();
+    }
+
+    //admin
+    private Button btnCrearRestaurante;
+
+    //user
     private ImageButton btnPedidos;
     //general
-    private GridLayout lista;
+    private GridView lista;
 
     private void loadComponents() {
-        btnRes=(Button) findViewById(R.id.btnRes);
-        btnRes.setOnClickListener(new View.OnClickListener() {
+        btnCrearRestaurante=(Button) findViewById(R.id.btnRes);
+        btnCrearRestaurante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(administrador.this,restaurant.class);
@@ -41,16 +63,56 @@ public class administrador extends AppCompatActivity {
         });
 
         btnPedidos = findViewById(R.id.btn_rh_pedidos);
-        lista =(GridLayout) findViewById(R.id.list_rh_view);
+
+        lista =(GridView) findViewById(R.id.list_rh_view);
 
         ShowComponents();
     }
-    private void ShowComponents(){
-        if (Sesion.usuario.isAdmin()){
+
+    public void ShowComponents(){
+        if(Sesion.usuario.isAdmin()){
             btnPedidos.setVisibility(View.INVISIBLE);
         }else{
-            btnCrearRestaurant.setVisibility(View.INVISIBLE);
-
+            btnCrearRestaurante.setVisibility(View.INVISIBLE);
         }
+    }
+    public void getRestaurantes(){
+        Resource rr = new Resource("restaurant");
+        rr.get(new ResourceHandler() {
+            @Override
+            public void onSucces(JSONObject result) {
+                try {
+                    JSONArray list = result.getJSONArray("data");
+                    final ArrayList<Restaurante> alr = new ArrayList<>();
+                    final int cant =list.length();
+                    for(int i=0;i<list.length();i++){
+                        Restaurante r = new Restaurante(list.getJSONObject(i), new LoadAllImages() {
+                            @Override
+                            public void finishLoadImages(Object o) {
+                                alr.add((Restaurante)o);
+                                if(alr.size()==cant)
+                                    lista.setAdapter(new RestaurantAdapter(getApplicationContext(), alr, new OnChange() {
+                                        @Override
+                                        public void onChange(BaseAdapter ba) {
+                                            lista.setAdapter(ba);
+                                        }
+                                    }));
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(JSONObject error) {
+                try {
+                    Toast.makeText(getApplicationContext(),error.getString("msn"),Toast.LENGTH_LONG);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
