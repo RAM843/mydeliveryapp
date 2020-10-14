@@ -67,7 +67,7 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
                 jo.put("telefono",celular.getText().toString());
                 jo.put("email",email.getText().toString());
                 jo.put("password",password.getText().toString());
-                jo.put("rol","user");
+                jo.put("rol","admin");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

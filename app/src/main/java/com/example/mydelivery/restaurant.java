@@ -229,7 +229,10 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                 break;
         }
     }
-
+    private void irAAdministrador(){
+        Intent i = new Intent( this, administrador.class);
+        startActivity(i);
+    }
     private void onClickCrear() throws JSONException {
         Resource restResource = new Resource("restaurant");
         JSONObject jo = new JSONObject();
@@ -247,6 +250,7 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                     Toast.makeText(getApplicationContext(),result.getString("msn"),Toast.LENGTH_LONG).show();
                     uploadLogo(result.getJSONObject("doc").getString("_id"));
                     uploadFotoLugar(result.getJSONObject("doc").getString("_id"));
+                    irAAdministrador();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

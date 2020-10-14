@@ -6,114 +6,129 @@
     android:layout_height="match_parent"
     tools:context=".restaurant">
 
-    <LinearLayout
-        android:layout_width="473dp"
-        android:layout_height="816dp"
-        android:orientation="vertical"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:text="Crear restaurante"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/txt_rr_nombre"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Nombre"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/txt_rr_nit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Nit"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/txt_rr_propietario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Propietario" />
-
-        <EditText
-            android:id="@+id/txt_rr_direccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Direccion"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/txt_rr_telefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Telefono"
-            android:inputType="textPersonName" />
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/map_rr_ubicacion"
-            android:layout_width="match_parent"
-            android:layout_height="234dp" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="222dp">
-
-            <ImageView
-                android:id="@+id/img_rr_logo"
-                android:layout_width="207dp"
-                android:layout_height="179dp"
-                android:layout_weight="1"
-                app:layout_constraintEnd_toStartOf="@+id/img_rr_fotolugar"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="33dp"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <ImageView
-                android:id="@+id/img_rr_fotolugar"
-                android:layout_width="222dp"
-                android:layout_height="175dp"
-                android:layout_weight="1"
-                tools:layout_editor_absoluteX="235dp"
-                tools:layout_editor_absoluteY="37dp"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView10"
-                android:layout_width="120dp"
-                android:layout_height="24dp"
-                android:text="    logo click aqui"
-                app:layout_constraintEnd_toEndOf="@+id/img_rr_logo"
-                app:layout_constraintStart_toStartOf="@+id/img_rr_logo"
-                tools:layout_editor_absoluteY="164dp" />
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:text="Crear restaurante"
+                android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="139dp"
-                android:layout_height="23dp"
-                android:text="  foto lugar click aqui"
-                app:layout_constraintEnd_toEndOf="@+id/img_rr_fotolugar"
-                app:layout_constraintHorizontal_bias="0.52"
-                app:layout_constraintStart_toStartOf="@+id/img_rr_fotolugar"
-                tools:layout_editor_absoluteY="165dp" />
+            <EditText
+                android:id="@+id/txt_rr_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Nombre"
+                android:inputType="textPersonName" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/txt_rr_nit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Nit"
+                android:inputType="textPersonName" />
 
-        <Button
-            android:id="@+id/btn_rr_crear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Crear" />
+            <EditText
+                android:id="@+id/txt_rr_propietario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Propietario" />
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/txt_rr_direccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Direccion"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/txt_rr_telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Telefono"
+                android:inputType="textPersonName" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/map_rr_ubicacion"
+                android:layout_width="match_parent"
+                android:layout_height="185dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp">
+
+                <ImageView
+                    android:id="@+id/img_rr_logo"
+                    android:layout_width="160dp"
+                    android:layout_height="159dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <ImageView
+                    android:id="@+id/img_rr_fotolugar"
+                    android:layout_width="196dp"
+                    android:layout_height="155dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@android:mipmap/sym_def_app_icon" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:text="logo click aqui"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.827" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="56dp"
+                    android:layout_marginRight="56dp"
+                    android:text="foto del lugar\nclick aqui"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.88" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btn_rr_crear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Crear" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

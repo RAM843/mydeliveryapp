@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.mydelivery.Api.Auth;
 import com.example.mydelivery.Api.ResourceHandler;
+import com.example.mydelivery.Models.Usuario;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,6 +59,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onSucces(JSONObject result) {
                 try {
+                    Sesion.usuario = new Usuario(result.getJSONObject("doc"));
                     Toast.makeText(getApplicationContext(),result.getString("msn"),Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -84,7 +86,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
         startActivity(i);
     }
     public void irAHome(){
-        Intent i = new Intent(this,MainActivity.class);
+        Intent i = new Intent(this,administrador.class);
         startActivity(i);
     }
 }
