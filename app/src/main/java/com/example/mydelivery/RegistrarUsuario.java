@@ -36,7 +36,7 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
         cpassword = findViewById(R.id.ru_cpassword);
 
         guardar = findViewById(R.id.btn_ru_guardar);
-        cancelar = findViewById(R.id.btn_ru_calcelar);
+        cancelar = findViewById(R.id.btn_ru_cancelar);
         guardar.setOnClickListener(this);
         cancelar.setOnClickListener(this);
     }
@@ -47,7 +47,7 @@ public class RegistrarUsuario extends AppCompatActivity implements View.OnClickL
             case R.id.btn_ru_guardar:
                 guardar();
                 break;
-            case R.id.btn_ru_calcelar:
+            case R.id.btn_ru_cancelar:
                 irALogin();
                 break;
         }

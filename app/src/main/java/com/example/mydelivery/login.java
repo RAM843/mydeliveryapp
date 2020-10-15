@@ -27,10 +27,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     EditText email,password;
     Button login,register;
     private void loadComponents() {
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
+        email = findViewById(R.id.login_email);
+        password = findViewById(R.id.login_password);
         login = findViewById(R.id.btn_login);
-        register = findViewById(R.id.btn_registrar);
+        register = findViewById(R.id.btn_register);
         login.setOnClickListener(this);
         register.setOnClickListener(this);
     }
@@ -41,7 +41,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             case R.id.btn_login:
                 login();
                 break;
-            case R.id.btn_registrar:
+            case R.id.btn_register:
                 irARegistrar();
                 break;
         }

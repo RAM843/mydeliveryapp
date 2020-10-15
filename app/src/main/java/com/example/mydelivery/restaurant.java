@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.example.mydelivery.Api.Resource;
 import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Api.UploadFile;
+import com.example.mydelivery.Models.LoadAllImages;
+import com.example.mydelivery.Models.Restaurante;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -44,6 +46,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Random;
 
 public class restaurant extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
@@ -57,13 +60,34 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
     private int CODE_CAMERA_FOTOLUGAR = 1200;
     private int CODE_GALERY_FOTOLUGAR = 1201;
     private String fotoLugarPath = null;
+
+    private Restaurante restaurante = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
         reviewPermissions();
-        initializeMap(savedInstanceState);
+
         loadComponents();
+        Intent intent = this.getIntent();
+
+        if(intent.hasExtra("restaurantJson")){
+            try {
+                restaurante = new Restaurante(new JSONObject(intent.getStringExtra("restaurantJson")), new LoadAllImages() {
+                    @Override
+                    public void finishLoadImages(Object o) {
+                        Restaurante r = (Restaurante) o;
+                        logo.setImageBitmap(r.img_logo);
+                        fotolugar.setImageBitmap(r.img_foto_lugar);
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            editRestaurant();
+        }
+
+        initializeMap(savedInstanceState);
     }
     ImageView logo,fotolugar;
     EditText nombre,nit,propietario,direccion,telefono;
@@ -84,6 +108,15 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
         fotolugar.setOnClickListener(this);
     }
 
+    public void editRestaurant(){
+        nombre.setText(restaurante.nombre);
+        nit.setText(restaurante.nit);
+        propietario.setText(restaurante.propietario);
+        direccion.setText(restaurante.direccion);
+        telefono.setText(restaurante.telefono);
+        miubicacion = new LatLng(restaurante.lat,restaurante.log);
+        crear.setText("Guardar");
+    }
 
     public void initializeMap(Bundle sis){
         mapview = findViewById(R.id.map_rr_ubicacion);
@@ -97,10 +130,11 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap gm) {
         this.googleMap = gm;
         LatLng potosi =new LatLng(-19.5730936, -65.7559122);
-        miubicacion = potosi;
-        googleMap.addMarker(new MarkerOptions().position(potosi).title("Lugar").zIndex(18).draggable(true));
+        if(miubicacion==null)
+            miubicacion = potosi;
+        googleMap.addMarker(new MarkerOptions().position(miubicacion).title("Lugar").zIndex(18).draggable(true));
         googleMap.setMinZoomPreference(15);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(potosi));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(miubicacion));
         googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
@@ -161,15 +195,17 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
     }
     private String saveToInternalStorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
+
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
+        Random r = new Random();
+        String filename = "profile"+r.nextInt(50)+".jpg";
+
+        File mypath=new File(directory,filename);
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
+
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,7 +217,7 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                 e.printStackTrace();
             }
         }
-        String path = directory.getAbsolutePath() + "/profile.jpg";
+        String path = directory.getAbsolutePath() + "/"+filename;
         return path;
         //return directory.getAbsolutePath();
     }
@@ -231,13 +267,15 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
         jo.put("telefono",telefono.getText().toString());
         jo.put("log",String.valueOf(miubicacion.longitude));
         jo.put("lat",String.valueOf(miubicacion.latitude));
-        restResource.post(jo, new ResourceHandler() {
+        ResourceHandler rh = new ResourceHandler() {
             @Override
             public void onSucces(JSONObject result) {
                 try {
                     Toast.makeText(getApplicationContext(),result.getString("msn"),Toast.LENGTH_LONG).show();
-                    uploadLogo(result.getJSONObject("doc").getString("_id"));
-                    uploadFotoLugar(result.getJSONObject("doc").getString("_id"));
+                    if(logoPath!=null)
+                        uploadLogo(result.getJSONObject("doc").getString("_id"));
+                    if(fotoLugarPath!=null)
+                        uploadFotoLugar(result.getJSONObject("doc").getString("_id"));
                     irAAdministrador();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -252,7 +290,12 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
                     e.printStackTrace();
                 }
             }
-        });
+        };
+
+        if(restaurante!=null)
+            restResource.patch(restaurante.id,jo, rh);
+        else
+            restResource.post(jo, rh);
     }
 
     public void uploadLogo(final String id){

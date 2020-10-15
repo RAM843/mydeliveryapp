@@ -1,6 +1,7 @@
 package com.example.mydelivery.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Models.Restaurante;
 import com.example.mydelivery.R;
 import com.example.mydelivery.Sesion;
+import com.example.mydelivery.restaurant;
 
 import org.json.JSONObject;
 
@@ -65,7 +67,7 @@ public class RestaurantAdapter extends BaseAdapter {
             edit.setVisibility(View.INVISIBLE);
         }
 
-        img.setOnClickListener(new OnClicList(lista.get(i),Opcion.select,lista));
+        img.setOnClickListener(new OnClicList(lista.get(i), Opcion.select,lista));
 
         nombre.setText(lista.get(i).nombre);
         if(lista.get(i).img_logo!=null)
@@ -77,6 +79,7 @@ public class RestaurantAdapter extends BaseAdapter {
         edit,
         select
     }
+
     public class OnClicList implements View.OnClickListener {
         Restaurante restaurante;
         Opcion o;
@@ -106,6 +109,9 @@ public class RestaurantAdapter extends BaseAdapter {
                     });
                     break;
                 case edit:
+                    Intent i = new Intent(CONTEXT, restaurant.class);
+                    i.putExtra("restaurantJson",restaurante.json.toString());
+                    CONTEXT.startActivity(i);
                     break;
                 case select:
 

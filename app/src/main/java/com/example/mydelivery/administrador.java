@@ -39,8 +39,8 @@ public class administrador extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         getRestaurantes();
     }
 
@@ -91,7 +91,7 @@ public class administrador extends AppCompatActivity {
                             public void finishLoadImages(Object o) {
                                 alr.add((Restaurante)o);
                                 if(alr.size()==cant)
-                                    lista.setAdapter(new RestaurantAdapter(getApplicationContext(), alr, new OnChange() {
+                                    lista.setAdapter(new RestaurantAdapter(administrador.this, alr, new OnChange() {
                                         @Override
                                         public void onChange(BaseAdapter ba) {
                                             lista.setAdapter(ba);

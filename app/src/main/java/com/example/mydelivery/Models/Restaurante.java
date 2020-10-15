@@ -9,11 +9,13 @@ import com.example.mydelivery.Utils.TaskImg;
 import org.json.JSONObject;
 
 public class Restaurante {
-    public String id,nombre, nit, propietario, direccion, telefono, log, lat, logo, fechaderegistro, foto_lugar;
-
+    public String id,nombre, nit, propietario, direccion, telefono,logo, fechaderegistro, foto_lugar;
+    public double log,lat;
     public Bitmap img_logo=null,img_foto_lugar=null;
     public LoadAllImages olimgs=null;
+    public JSONObject json;
     public Restaurante(JSONObject jo){
+        json =jo;
         try{
             id = jo.getString("_id");
             nombre = jo.getString("nombre");
@@ -21,8 +23,8 @@ public class Restaurante {
             propietario = jo.getString("propietario");
             direccion = jo.getString("calle");
             telefono = jo.getString("telefono");
-            log = jo.getString("log");
-            lat = jo.getString("lat");
+            log = jo.getDouble("log");
+            lat = jo.getDouble("lat");
             logo = jo.getString("logo");
             fechaderegistro = jo.getString("fechaderegistro");
             foto_lugar = jo.getString("foto_lugar");
@@ -33,7 +35,9 @@ public class Restaurante {
         }
     }
     public Restaurante(JSONObject jo,LoadAllImages o){
+        json = jo;
         olimgs = o;
+
         try{
             id = jo.getString("_id");
             nombre = jo.getString("nombre");
@@ -41,8 +45,8 @@ public class Restaurante {
             propietario = jo.getString("propietario");
             direccion = jo.getString("calle");
             telefono = jo.getString("telefono");
-            log = jo.getString("log");
-            lat = jo.getString("lat");
+            log = jo.getDouble("log");
+            lat = jo.getDouble("lat");
             logo = jo.getString("logo");
             fechaderegistro = jo.getString("fechaderegistro");
             foto_lugar = jo.getString("foto_lugar");
@@ -51,6 +55,7 @@ public class Restaurante {
         }catch (Exception e){
 
         }
+
     }
 
     private void loadLogoImg(){
