@@ -31,7 +31,7 @@ public class UploadFile {
         }
         RequestParams params = new RequestParams();
         params.put("img_foto_producto",f);
-        asyncHttpClient.post(Config.ApiURL+"/restaurant/upload/"+id+"/foto_producto",params,new Resource.JsonHttpHandler(rh));
+        asyncHttpClient.post(Config.ApiURL+"/menu/upload/"+id+"/foto_producto",params,new Resource.JsonHttpHandler(rh));
 
     }
 }

@@ -29,6 +29,7 @@ import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Api.UploadFile;
 import com.example.mydelivery.Models.LoadAllImages;
 import com.example.mydelivery.Models.Restaurante;
+import com.example.mydelivery.Utils.CameraPhotoManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -159,68 +160,27 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
 
             if(requestCode==CODE_CAMERA_LOGO){
                 Bitmap imgbitmap=(Bitmap)data.getExtras().get("data");
-                logoPath=saveToInternalStorage(imgbitmap);
+                logoPath= CameraPhotoManager.saveToInternalStorage(this,imgbitmap);
                 logo.setImageBitmap(BitmapFactory.decodeFile(logoPath));
             }
             if(requestCode==CODE_GALERY_LOGO){
                 Uri uri=data.getData();
-                logoPath=getRealPathFromURI(uri);
+                logoPath=CameraPhotoManager.getRealPathFromURI(this,uri);
                 logo.setImageBitmap(BitmapFactory.decodeFile(logoPath));
             }
             if(requestCode==CODE_CAMERA_FOTOLUGAR){
                 Bitmap imgbitmap=(Bitmap)data.getExtras().get("data");
-                fotoLugarPath=saveToInternalStorage(imgbitmap);
+                fotoLugarPath=CameraPhotoManager.saveToInternalStorage(this,imgbitmap);
                 fotolugar.setImageBitmap(BitmapFactory.decodeFile(fotoLugarPath));
             }
             if(requestCode==CODE_GALERY_FOTOLUGAR){
                 Uri uri=data.getData();
-                fotoLugarPath=getRealPathFromURI(uri);
+                fotoLugarPath=CameraPhotoManager.getRealPathFromURI(this,uri);
                 fotolugar.setImageBitmap(BitmapFactory.decodeFile(fotoLugarPath));
             }
         }
     }
-    public String getRealPathFromURI(Uri uri) {
-        String result;
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        if (cursor == null) {
-            result = uri.getPath();
-            cursor.close();
-            return result;
-        }
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        result = cursor.getString(idx);
-        cursor.close();
-        return result;
-    }
-    private String saveToInternalStorage(Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
 
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        Random r = new Random();
-        String filename = "profile"+r.nextInt(50)+".jpg";
-
-        File mypath=new File(directory,filename);
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.flush();
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        String path = directory.getAbsolutePath() + "/"+filename;
-        return path;
-        //return directory.getAbsolutePath();
-    }
     private boolean reviewPermissions() {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
             return true;

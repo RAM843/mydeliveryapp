@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.mydelivery.Api.Resource;
 import com.example.mydelivery.Api.ResourceHandler;
+import com.example.mydelivery.Menus;
 import com.example.mydelivery.Models.Restaurante;
 import com.example.mydelivery.R;
 import com.example.mydelivery.Sesion;
@@ -114,6 +115,9 @@ public class RestaurantAdapter extends BaseAdapter {
                     CONTEXT.startActivity(i);
                     break;
                 case select:
+                    Intent in = new Intent(CONTEXT, Menus.class);
+                    in.putExtra("restaurantJson",restaurante.json.toString());
+                    CONTEXT.startActivity(in);
 
                     break;
             }
