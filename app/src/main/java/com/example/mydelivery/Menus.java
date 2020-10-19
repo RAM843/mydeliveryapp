@@ -30,7 +30,9 @@ import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Models.LoadAllImages;
 import com.example.mydelivery.Models.Menu;
 import com.example.mydelivery.Models.OnSaveModel;
+import com.example.mydelivery.Models.Restaurante;
 import com.example.mydelivery.Utils.CameraPhotoManager;
+import com.example.mydelivery.Utils.Query;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 
 public class Menus extends AppCompatActivity implements View.OnClickListener {
     private Menu selectMenu =null;
+    private Restaurante restaurante = null;
     private String fotoproductoPath=null;
     private int CODE_CAMERA_FP= 1100;
     private int CODE_GALERY_FP=1101;
@@ -48,6 +51,14 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menus);
+        Intent i = getIntent();
+        String restJson = i.getStringExtra("restaurantJson");
+        try {
+            restaurante = new Restaurante(new JSONObject(restJson));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         loadComponents();
 
@@ -92,23 +103,29 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
     public void Guardar(){
         if (selectMenu==null){
             guardarNuevo();
+        }else{
+            guardarExistente();
         }
+
     }
     public void guardarNuevo(){
         String nombre = txtnombre.getText().toString();
         String descripcion = txtdescripcion.getText().toString();
         double precio = Double.parseDouble(txtprecio.getText().toString());
         if (nombre.length()>0 && descripcion.length()>0 && precio>0 && fotoproductoPath!=null){
-            Menu nuevo = new Menu(nombre,descripcion,precio,new File(fotoproductoPath));
+            Menu nuevo = new Menu(restaurante.id,nombre,descripcion,precio,new File(fotoproductoPath));
             try {
                 nuevo.save(new OnSaveModel() {
                     @Override
                     public void onSave(Object o) {
-                        //recargar lista
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(getApplicationContext(),"Menu Registrado!!!",Toast.LENGTH_LONG).show();
+                                //recargar lista
+                                limpiarFormulario();
+                                loadMenus();
                             }
                         });
                     }
@@ -132,7 +149,54 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
 
     }
     public void guardarExistente(){
+        selectMenu.nombre = txtnombre.getText().toString();
+        selectMenu.precio = Double.parseDouble(txtprecio.getText().toString());
+        selectMenu.descripcion = txtdescripcion.getText().toString();
+        if (fotoproductoPath!=null){
+            selectMenu.nueva_imagen = new File(fotoproductoPath);
+        }
+        try {
+            selectMenu.save(new OnSaveModel() {
+                @Override
+                public void onSave(Object o) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),"Menu Guuardado exitosamente",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    limpiarFormulario();
+                    loadMenus();
 
+                }
+                @Override
+                public void onFailed(String err) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),"error inesperado!",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void limpiarFormulario(){
+        selectMenu = null;
+        fotoproductoPath = null;
+        //titulos
+        ftitulo.setText("Crear Menu");
+        btninsertar.setText("Insertar");
+
+        //contenido
+        txtnombre.setText("");
+        txtprecio.setText("");
+        txtdescripcion.setText("");
+        imgfotoproducto.setImageBitmap(null);
     }
 
     @Override
@@ -190,7 +254,9 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
     }
     private void loadMenus(){
         Resource rm = new Resource("menu");
-        rm.get(new ResourceHandler() {
+        Query q = new Query();
+        q.add("id_restaurante",restaurante.id);
+        rm.get(q ,new ResourceHandler() {
             @Override
             public void onSucces(JSONObject result) {
                 try {
@@ -212,7 +278,12 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
                                         @Override
                                         public void onSelect(Object item) {
                                             selectMenu = (Menu)item;
-                                            //correr funcion de selecion
+                                            if(Sesion.usuario.isAdmin()){
+                                                //editar
+                                                editarMenu();
+                                            }else {
+                                                //hacer pedido
+                                            }
                                         }
                                     }));
                                 }
@@ -223,6 +294,19 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+            }
+
+            public void editarMenu(){
+                txtnombre.setText(selectMenu.nombre);
+                txtprecio.setText(selectMenu.precio+"");
+                txtdescripcion.setText(selectMenu.descripcion);
+                imgfotoproducto.setImageBitmap(selectMenu.img_fotografiaProducto);
+                //cambiar titulo
+                ftitulo.setText("Editar Menu");
+                btninsertar.setText("Guardar");
+            }
+            public void seleccionarMenuParaPedido(){
 
             }
 

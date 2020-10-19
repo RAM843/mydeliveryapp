@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Menu {
-    public String id=null,nombre,descripcion,fechaderegistro, fotografia_producto;
+    public String id=null,id_restaurante,nombre,descripcion,fechaderegistro, fotografia_producto;
     public double precio;
 
     public File nueva_imagen=null;
@@ -26,7 +26,7 @@ public class Menu {
     public JSONObject json;
 
     public Menu (JSONObject jo){
-        json =jo;
+
         try{
             loadToJson(jo);
             loadFotoProductoImg();
@@ -35,7 +35,7 @@ public class Menu {
         }
     }
     public Menu(JSONObject jo,LoadAllImages o){
-        json = jo;
+
         olimgs = o;
 
         try{
@@ -48,9 +48,11 @@ public class Menu {
     }
 
     public void loadToJson(JSONObject jo) throws JSONException {
+        json = jo;
         id = jo.getString("_id");
         nombre = jo.getString("nombre");
         descripcion = jo.getString("descripcion");
+        id_restaurante = jo.getString("id_restaurante");
         if (jo.has("fotografia_producto"))
             fotografia_producto = jo.getString("fotografia_producto");
         precio = jo.getDouble("precio");
@@ -59,7 +61,8 @@ public class Menu {
 
     }
 
-    public Menu(String nombre, String descripcion, double precio, File img) {
+    public Menu(String id_restaurante, String nombre, String descripcion, double precio, File img) {
+        this.id_restaurante = id_restaurante;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -69,6 +72,7 @@ public class Menu {
     public void save(final OnSaveModel osm) throws JSONException {
         Resource rm = new Resource("menu");
         JSONObject jo = new JSONObject();
+        jo.put("id_restaurante",id_restaurante);
         jo.put("nombre",nombre);
         jo.put("descripcion",descripcion);
         jo.put("precio",precio);

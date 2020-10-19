@@ -1,5 +1,6 @@
 package com.example.mydelivery.Api;
 
+import com.example.mydelivery.Utils.Query;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -9,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.Queue;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -35,6 +37,10 @@ public class Resource {
          asyncHttpClient.get(Config.ApiURL+"/"+ruta,new JsonHttpHandler(rh));
 
      }
+    public void get(Query q, final ResourceHandler rh){
+        asyncHttpClient.get(Config.ApiURL+"/"+ruta+q.getQuery(),new JsonHttpHandler(rh));
+
+    }
      public void put(String id,JSONObject data,ResourceHandler rh){
          RequestParams params = generateParams(data);
          asyncHttpClient.put(Config.ApiURL+"/"+ruta+"/"+id,params,new JsonHttpHandler(rh));
