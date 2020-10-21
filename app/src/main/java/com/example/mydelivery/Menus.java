@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Models.LoadAllImages;
 import com.example.mydelivery.Models.Menu;
 import com.example.mydelivery.Models.OnSaveModel;
+import com.example.mydelivery.Models.Pedido;
 import com.example.mydelivery.Models.Restaurante;
 import com.example.mydelivery.Utils.CameraPhotoManager;
 import com.example.mydelivery.Utils.Query;
@@ -283,6 +287,7 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
                                                 editarMenu();
                                             }else {
                                                 //hacer pedido
+                                                seleccionarMenuParaPedido();
                                             }
                                         }
                                     }));
@@ -294,19 +299,6 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-            }
-
-            public void editarMenu(){
-                txtnombre.setText(selectMenu.nombre);
-                txtprecio.setText(selectMenu.precio+"");
-                txtdescripcion.setText(selectMenu.descripcion);
-                imgfotoproducto.setImageBitmap(selectMenu.img_fotografiaProducto);
-                //cambiar titulo
-                ftitulo.setText("Editar Menu");
-                btninsertar.setText("Guardar");
-            }
-            public void seleccionarMenuParaPedido(){
 
             }
 
@@ -326,6 +318,71 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
 
             }
         });
+    }
+    public void editarMenu(){
+        txtnombre.setText(selectMenu.nombre);
+        txtprecio.setText(selectMenu.precio+"");
+        txtdescripcion.setText(selectMenu.descripcion);
+        imgfotoproducto.setImageBitmap(selectMenu.img_fotografiaProducto);
+        //cambiar titulo
+        ftitulo.setText("Editar Menu");
+        btninsertar.setText("Guardar");
+    }
+    private int Cantidad;
+    private AlertDialog al;
+    private TextView cantidad;
+    public void seleccionarMenuParaPedido(){
+        AlertDialog.Builder alb = new AlertDialog.Builder(this);
+        LayoutInflater inflater=(LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view=inflater.inflate(R.layout.select_cantidad,null);
+        Cantidad = 1;
+        TextView nombre = view.findViewById(R.id.txt_sc_nombre);
+        nombre.setText(selectMenu.nombre);
+        TextView descripcion = view.findViewById(R.id.txt_sc_descripcion);
+        descripcion.setText(selectMenu.descripcion);
+        descripcion.setEnabled(false);
+
+        cantidad = view.findViewById(R.id.txt_sc_cantidad);
+        cantidad.setText(Cantidad+"");
+        final TextView precioTotal = view.findViewById(R.id.txt_sc_dtotal);
+        precioTotal.setText(""+selectMenu.precio+" * "+Cantidad+" = "+(selectMenu.precio*Cantidad)+" Bs.");
+
+        SeekBar sbcant = view.findViewById(R.id.sb_sc_cantidad);
+        sbcant.setMax(10);
+        sbcant.setProgress(Cantidad);
+
+        sbcant.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                Cantidad = i;
+                cantidad.setText(Cantidad+"");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        Button btnordenar = view.findViewById(R.id.btn_sc_ordenar);
+        btnordenar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Sesion.carrito.add(new Pedido(Cantidad,selectMenu));
+                if(al!=null){
+                    al.dismiss();
+                }
+            }
+        });
+        alb.setView(view);
+        al = alb.create();
+        al.show();
+
     }
 
 }
