@@ -63,10 +63,20 @@ public class administrador extends AppCompatActivity {
         });
 
         btnPedidos = findViewById(R.id.btn_rh_pedidos);
+        btnPedidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irAPedidos();
+            }
+        });
 
         lista =(GridView) findViewById(R.id.list_rh_view);
 
         ShowComponents();
+    }
+    public void irAPedidos(){
+        Intent i = new Intent(this,RealizarPedido.class);
+        startActivity(i);
     }
 
     public void ShowComponents(){

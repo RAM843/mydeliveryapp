@@ -2,15 +2,11 @@ package com.example.mydelivery;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
@@ -23,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.example.mydelivery.Api.Resource;
 import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Api.UploadFile;
@@ -38,22 +33,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Locale;
-import java.util.Random;
+
 
 public class restaurant extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private MapView mapview;
     private GoogleMap googleMap;
-    private Geocoder geocoder = null;
     private LatLng miubicacion = null;
     private int CODE_CAMERA_LOGO = 1100;
     private int CODE_GALERY_LOGO = 1101;
@@ -125,7 +115,6 @@ public class restaurant extends AppCompatActivity implements OnMapReadyCallback,
         mapview.onResume();
         MapsInitializer.initialize(this);
         mapview.getMapAsync(this);
-        geocoder =new Geocoder(getBaseContext(), Locale.getDefault());
     }
     @Override
     public void onMapReady(GoogleMap gm) {
