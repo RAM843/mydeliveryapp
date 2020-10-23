@@ -57,7 +57,7 @@ public class PedidoItemAdapter extends BaseAdapter {
         }
         TextView nombre =(TextView) view.findViewById(R.id.txt_pi_nombre);
         TextView precio =(TextView) view.findViewById(R.id.txt_pi_precio);
-        final TextView total = (TextView) view.findViewById(R.id.txt_sc_dtotal);
+        final TextView total = (TextView) view.findViewById(R.id.txt_pi_dtotal);
         ImageView img =(ImageView) view.findViewById(R.id.img_pi_fp);
         final EditText cantidad = (EditText) view.findViewById(R.id.txt_pi_cantidad);
 
