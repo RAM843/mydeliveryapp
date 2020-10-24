@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/im4d"
+    android:background="@drawable/fondo"
     tools:context=".Menus">
 
     <LinearLayout
@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MENUS"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,16 +36,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lyt_m_nuevo"
             android:layout_width="match_parent"
-            android:layout_height="206dp">
+            android:layout_height="206dp"
+            android:background="@color/colorPrimary">
 
             <TextView
                 android:id="@+id/txt_m_titulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
                 android:text="Crear Menu"
+                android:textColor="@color/color4"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,8 +78,8 @@
                 android:ems="10"
                 android:hint="Nombre"
                 android:inputType="textPersonName"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:textColor="#050505"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toStartOf="@+id/txt_m_precio"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_m_titulo" />
@@ -91,7 +94,8 @@
                 android:ems="10"
                 android:hint="Precio"
                 android:inputType="textPersonName"
-                android:textSize="14sp"
+                android:textColor="#070707"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toStartOf="@+id/img_m_fotoproducto"
                 app:layout_constraintTop_toBottomOf="@+id/txt_m_titulo" />
 
@@ -109,7 +113,8 @@
                 android:gravity="start|top"
                 android:hint="Descripción"
                 android:inputType="textMultiLine"
-                android:textSize="14sp"
+                android:textColor="#090909"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toTopOf="@+id/btn_m_insertar"
                 app:layout_constraintEnd_toStartOf="@+id/img_m_fotoproducto"
                 app:layout_constraintHorizontal_bias="0.484"
@@ -121,6 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="34dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/rectangulo"
                 android:text="Insertar"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -132,6 +138,7 @@
                 android:layout_width="114dp"
                 android:layout_height="34dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/rectangulo"
                 android:text="Tomar Foto"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@drawable/ic_endless_constellation">
+    android:layout_height="100dp">
 
     <TextView
         android:id="@+id/txt_pi_nombre"
@@ -14,6 +13,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="TextView"
+        android:textColor="@color/color4"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +40,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:text="TextView"
+        android:textColor="@color/color4"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/txt_pi_nombre"
@@ -53,7 +54,9 @@
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:inputType="number"
+        android:textColor="@color/color4"
         android:textSize="14dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.28"
@@ -70,6 +73,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:text="TextView"
+        android:textColor="@color/color4"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/img_pi_fp"
@@ -81,10 +85,10 @@
         android:layout_width="44dp"
         android:layout_height="40dp"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/ic_baseline_delete_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/txt_pi_cantidad"
         app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txt_pi_cantidad"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
+        app:layout_constraintTop_toTopOf="@+id/txt_pi_cantidad" />
 </androidx.constraintlayout.widget.ConstraintLayout>

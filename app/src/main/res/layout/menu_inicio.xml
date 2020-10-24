@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="100dp">
 
+
     <ImageView
         android:id="@+id/img_mi_fotoproducto"
         android:layout_width="100dp"
@@ -26,7 +27,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
         android:text="Nombre"
-        android:textColor="#000000"
+        android:textColor="@color/color4"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +40,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
         android:text="Precio"
-        android:textColor="#000000"
+        android:textColor="@color/color4"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/txt_mi_bs"
         app:layout_constraintStart_toEndOf="@+id/txt_mi_nombre"
@@ -53,14 +54,14 @@
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:text="Bs."
-        android:textColor="#050505"
+        android:textColor="@color/color4"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/img_mi_fotoproducto"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/lyt_mi_listbuttons"
-        android:layout_width="299dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,30 +71,30 @@
 
         <Button
             android:id="@+id/btn_mi_agregar"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="#EFEEE9"
+            android:background="@drawable/rectangulo"
             android:text="Agregar"
             android:textColor="#000000"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_mi_editar"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="#EFEEE9"
+            android:background="@drawable/rectanguloboton"
             android:text="editar"
             android:textColor="#000000"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_mi_eliminar"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="#F35252"
+            android:background="@drawable/rectangulorojo"
             android:text="eliminar"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
