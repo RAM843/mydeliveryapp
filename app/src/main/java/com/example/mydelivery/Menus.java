@@ -356,6 +356,7 @@ public class Menus extends AppCompatActivity implements View.OnClickListener {
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
                 Cantidad = i;
                 cantidad.setText(Cantidad+"");
+                precioTotal.setText(""+selectMenu.precio+" * "+Cantidad+" = "+(selectMenu.precio*Cantidad)+" Bs.");
             }
 
             @Override

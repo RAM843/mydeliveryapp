@@ -17,10 +17,13 @@ import java.util.ArrayList;
 
 public class PedidoItemAdapter extends BaseAdapter {
     private Context CONTEXT;
-
+    private  boolean editable = true;
     private ArrayList<Pedido> lista;
     private OnChange oc;
     private OnSelectItem os;
+    public void setEditable(boolean e){
+        editable = e;
+    }
     public PedidoItemAdapter(Context cont,ArrayList<Pedido> l,OnChange oc,OnSelectItem os){
         CONTEXT=cont;
         lista=l;
@@ -92,6 +95,10 @@ public class PedidoItemAdapter extends BaseAdapter {
         });
 
         delete.setOnClickListener(new OnClicList(lista.get(i)));
+        if (!editable){
+            delete.setVisibility(View.INVISIBLE);
+            cantidad.setEnabled(false);
+        }
         return view;
     }
 

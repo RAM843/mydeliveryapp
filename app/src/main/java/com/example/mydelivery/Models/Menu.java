@@ -7,8 +7,10 @@ import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Api.UploadFile;
 import com.example.mydelivery.Api.Url;
 import com.example.mydelivery.Utils.OnLoadImg;
+import com.example.mydelivery.Utils.Query;
 import com.example.mydelivery.Utils.TaskImg;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +35,29 @@ public class Menu {
         }catch (Exception e){
 
         }
+    }
+    public Menu(String id, LoadAllImages o){
+        this.id=id;
+        olimgs = o;
+        Resource r = new Resource("menu");
+        Query q = new Query();
+        q.add("_id",this.id);
+        r.get(q, new ResourceHandler() {
+            @Override
+            public void onSucces(JSONObject result) {
+                try {
+                    JSONArray data = result.getJSONArray("data");
+                    JSONObject menu = data.getJSONObject(0);
+                    loadToJson(menu);
+                    loadFotoProductoImg();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(JSONObject error) {
+            }
+        });
     }
     public Menu(JSONObject jo,LoadAllImages o){
 

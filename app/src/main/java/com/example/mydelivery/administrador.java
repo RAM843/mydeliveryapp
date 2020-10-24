@@ -3,15 +3,14 @@ package com.example.mydelivery;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import androidx.gridlayout.widget.GridLayout;
 
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.mydelivery.Adapters.OnChange;
@@ -20,7 +19,6 @@ import com.example.mydelivery.Api.Resource;
 import com.example.mydelivery.Api.ResourceHandler;
 import com.example.mydelivery.Models.LoadAllImages;
 import com.example.mydelivery.Models.Restaurante;
-import com.example.mydelivery.Utils.OnLoadImg;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +44,7 @@ public class administrador extends AppCompatActivity {
 
     //admin
     private Button btnCrearRestaurante;
+    private Button btnAdminOrden;
 
     //user
     private ImageButton btnPedidos;
@@ -61,6 +60,13 @@ public class administrador extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btnAdminOrden = findViewById(R.id.btn_adminOrd);
+        btnAdminOrden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irAOrdenes();
+            }
+        });
 
         btnPedidos = findViewById(R.id.btn_rh_pedidos);
         btnPedidos.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +80,10 @@ public class administrador extends AppCompatActivity {
 
         ShowComponents();
     }
+    public void irAOrdenes(){
+        Intent i = new Intent(this,Ordenes.class);
+        startActivity(i);
+    }
     public void irAPedidos(){
         Intent i = new Intent(this,RealizarPedido.class);
         startActivity(i);
@@ -83,7 +93,11 @@ public class administrador extends AppCompatActivity {
         if(Sesion.usuario.isAdmin()){
             btnPedidos.setVisibility(View.INVISIBLE);
         }else{
+            LinearLayout ly = findViewById(R.id.linearLayout_lr);
             btnCrearRestaurante.setVisibility(View.INVISIBLE);
+            btnAdminOrden.setVisibility(View.INVISIBLE);
+            ly.removeView(btnCrearRestaurante);
+            ly.removeView(btnAdminOrden);
         }
     }
     public void getRestaurantes(){

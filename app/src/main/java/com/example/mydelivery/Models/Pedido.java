@@ -11,6 +11,15 @@ public class Pedido {
         cantidad = c;
         menu = m;
     }
+    public Pedido(int c, String idMenu,final LoadAllImages lai){
+        cantidad = c;
+        menu = new Menu(idMenu, new LoadAllImages() {
+            @Override
+            public void finishLoadImages(Object o) {
+                lai.finishLoadImages(Pedido.this);
+            }
+        });
+    }
 
     public JSONObject getJson() throws JSONException {
         JSONObject jo = new JSONObject();
